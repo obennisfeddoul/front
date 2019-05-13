@@ -25,6 +25,7 @@ import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 
 import GamesPage from 'pages/GamesPage'
+import TemplatesPage from 'pages/TemplatesPage'
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -70,6 +71,14 @@ class App extends React.Component {
                 <DashboardPage {...props} hasLoggedIn={this.hasLoggedIn}/>
               )}
               //component={DashboardPage}
+            />
+            <LayoutRoute
+              exact
+              path="/templates"
+              layout={MainLayout}
+              component={props => (
+                <TemplatesPage {...props} hasLoggedIn={this.hasLoggedIn}/>
+              )}
             />
             <LayoutRoute
               exact

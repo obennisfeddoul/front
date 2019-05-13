@@ -34,7 +34,7 @@ class AuthForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     if(this.isSignup){
-      fetch('http://localhost:8080/users/sign-up', {
+      fetch('http://10.242.3.116:8080/users/sign-up', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -46,7 +46,7 @@ class AuthForm extends React.Component {
       }),
       });
     }else{
-      fetch('http://localhost:8080/login', {
+      fetch('http://10.242.3.116:8080/login', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
