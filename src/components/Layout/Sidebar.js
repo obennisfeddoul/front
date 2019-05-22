@@ -82,6 +82,7 @@ const navContents = [
 
 const navItems = [
   { to: '/dashboard', name: 'dashboard', exact: true, Icon: MdDashboard },
+  { to: '/templates', name: 'templates', exact: true, Icon: MdViewList},
   { to: '/games', name: 'games', exact: true, Icon: MdViewList},
   { to: '/cards', name: 'cards', exact: false, Icon: MdWeb },
   { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
