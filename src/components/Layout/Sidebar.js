@@ -24,6 +24,7 @@ import {
   MdViewList,
   MdWeb,
   MdWidgets,
+  MdGamepad
 } from 'react-icons/md';
 import { NavLink } from 'react-router-dom';
 import {
@@ -85,6 +86,7 @@ const navItems = [
   { to: '/cards', name: 'cards', exact: false, Icon: MdWeb },
   { to: '/charts', name: 'charts', exact: false, Icon: MdInsertChart },
   { to: '/widgets', name: 'widgets', exact: false, Icon: MdWidgets },
+  { to: '/gameEngine', name: 'game Engine', exact: false, Icon: MdGamepad },
 ];
 
 const bem = bn.create('sidebar');

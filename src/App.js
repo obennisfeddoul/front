@@ -25,6 +25,9 @@ import { BrowserRouter, Redirect, Switch } from 'react-router-dom';
 import './styles/reduction.scss';
 
 import GamesPage from 'pages/GamesPage'
+import GameTemapleEngine from './components/gameEngine/GameTemapleEngine'
+import MyForm from './components/gameEngine/dummyForm';
+import GameForm from './components/gameEngine/GameForm';
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -77,6 +80,23 @@ class App extends React.Component {
               layout={MainLayout}
               component={props => (
                 <GamesPage {...props} hasLoggedIn={this.hasLoggedIn}/>
+              )}
+            />
+            <LayoutRoute
+              exact
+              path="/games_templates"
+              layout={MainLayout}
+              component={props => (
+                <GameTemapleEngine {...props} hasLoggedIn={this.hasLoggedIn}/>
+              )}
+            />
+            />
+            <LayoutRoute
+              exact
+              path="/gameEngine"
+              layout={MainLayout}
+              component={props => (
+                <GameForm/>
               )}
             />
             <LayoutRoute
