@@ -16,52 +16,73 @@ import {
 } from 'reactstrap';
 
 class BiddingGameRuleForm extends React.Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props)
     this.state = {
-      hasLoggedIn: false
-  }
-  }
-
-  handleChange = (e) =>{
-    this.setState({
-        gameRuleName: e.target.value
-    })
-
+      hasLoggedIn: false,
+      bidding: {}
   };
+  }
+
+  handleChange = input => event => {
+    const {bidding} = this.state;
+    bidding[input] = event.target.value;
+    this.setState(bidding)
+    const {indexBid} = this.props;
+    this.props.handleChange(bidding, indexBid);
+  };
+
     render() {
       const values = this.props;
         return(
             <React.Fragment>
-            <FormGroup row>
-                  <Label for="quantity" sm={2}>
-                    The targeted product(s)
+              <Row>
+          <Col xl={12} lg={12} md={12} sm={12}>
+            <Card>
+            <CardBody>
+            <a>Create Bidding</a>
+                  <Label for="product">
+                   
                   </Label>
-                  <Col sm={10}>
                   
-                  <Input type="select" name="selectMulti" multiple>
+                  
+                  <Input value={values.product} onChange={this.handleChange('product').bind(this)} type="select" name="selectMulti" multiple>
                     <option>product 1</option>
                     <option>product 2</option>
                     <option>product 3</option>
                     <option>product 4</option>
                     <option>product 5</option>
                   </Input>
-                  </Col>
-                </FormGroup>
-                <FormGroup row>
-                  <Label for="quantity" sm={2}>
-                    The required quantity to buy
+                 
+      
+                  <Label for="start_date">
+                   
                   </Label>
-                  <Col sm={10}>
+            
                     <Input
-                      type="number"
-                      name="quantity"
-                      placeholder="The required quantity to buy of the product..."
-                      onChange={this.props.handleChange('quantity')}
-                      defaultValue = {values.quantity}
+                      type="Date"
+                      name="start_date"
+                      value={values.start_date}
+                      placeholder="The start date of the bidding"
+                      onChange={this.handleChange('start_date').bind(this)}
+                  
                     />
+
+                    <Label for="end_date"/>
+                    <Input
+                      type="Date"
+                      name="end_date"
+                      value={values.end_date}
+                      placeholder="The end date of the bidding"
+                      onChange={this.handleChange('end_date').bind(this)}
+
+                    />
+                  
+                  </CardBody>
+                  </Card>
                   </Col>
-                </FormGroup>
+                  </Row>
+               
           </React.Fragment>
         );
     }
