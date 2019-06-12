@@ -18,13 +18,17 @@ import axios from 'axios';
 import HttpService from '../../services/http';
 
 class GameForm extends React.Component {
-  state = {
-    game: {
-      gameName: '',
-      gameStages: [],
+  constructor(props){
+    super(props);
 
-    },
-  };
+    this.state = {
+      game: {
+        gameType: props.match.params.gameType,
+        gameName: '',
+        gameStages: [],
+      },
+    }
+  }
 
 
   handleChange = input => event => {
@@ -49,7 +53,7 @@ class GameForm extends React.Component {
 
   appendChild() {
     const {game} = this.state;
-    game.gameStages.push({ gameStageName: '',rewardName: '' });
+    game.gameStages.push({ gameStageName: '',reward: {rewardName: ''}});
     this.setState({game});
 
   }
@@ -83,14 +87,13 @@ class GameForm extends React.Component {
                       <Input
                         type="text"
                         name="gameName"
-                        value={values.gameName}
                         placeholder="Enter a game name"
                         onChange={this.handleChange('gameName')}
                       />
                     </Col>
                   </FormGroup>
 
-                  <Card className="flex-row" style={{ width: 800 }}>
+                  <Card className="flex-row">
                     {this.state.game.gameStages.map((gs, index) => (
                       <div key={index}>
                         <Card>
@@ -101,6 +104,7 @@ class GameForm extends React.Component {
                               index={index}
                               // handleChange={this.handleGameStageChange(index)}
                               values={gs}
+                              gameType={this.state.game.gameType}
                             />
                           </CardBody>
                         </Card>
@@ -111,7 +115,7 @@ class GameForm extends React.Component {
                   <Card>
                     <FormGroup check row>
                       <Col sm={10}>
-                        <Button onClick={this.handleSubmit(values)}>
+                        <Button onClick={this.handleSubmit(this.state.game)}>
                           Submit
                         </Button>
                       </Col>

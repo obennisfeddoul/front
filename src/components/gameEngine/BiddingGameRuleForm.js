@@ -20,7 +20,12 @@ class BiddingGameRuleForm extends React.Component {
     super(props)
     this.state = {
       hasLoggedIn: false,
-      bidding: {}
+      bidding: {
+        //typeRule: 'bidding',
+        product: {
+          reference : ''
+        }
+      }
   };
   }
 
@@ -28,8 +33,16 @@ class BiddingGameRuleForm extends React.Component {
     const {bidding} = this.state;
     bidding[input] = event.target.value;
     this.setState(bidding)
-    const {indexBid} = this.props;
-    this.props.handleChange(bidding, indexBid);
+    const {indexGameRule} = this.props;
+    this.props.handleChange(bidding, indexGameRule);
+  };
+
+  handleChangeProduct = input => event => {
+    const {bidding} = this.state;
+    bidding.product.reference = event.target.value;
+    this.setState(bidding)
+    const {indexGameRule} = this.props;
+    this.props.handleChange(bidding, indexGameRule);
   };
 
     render() {
@@ -37,7 +50,7 @@ class BiddingGameRuleForm extends React.Component {
         return(
             <React.Fragment>
               <Row>
-          <Col xl={12} lg={12} md={12} sm={12}>
+          <Col >
             <Card>
             <CardBody>
             <a>Create Bidding</a>
@@ -46,7 +59,7 @@ class BiddingGameRuleForm extends React.Component {
                   </Label>
                   
                   
-                  <Input value={values.product} onChange={this.handleChange('product').bind(this)} type="select" name="selectMulti" multiple>
+                  <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)} type="select" name="selectMulti" multiple>
                     <option>product 1</option>
                     <option>product 2</option>
                     <option>product 3</option>

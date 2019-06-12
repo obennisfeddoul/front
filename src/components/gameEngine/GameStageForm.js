@@ -17,38 +17,79 @@ import {
 
 import GameRuleForm from './GameRuleForm';
 import BiddingGameRuleForm from './BiddingGameRuleForm';
+import BuyingGameRuleForm from './BuyingGameRuleForm';
 
 class GameStageForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = { hasLoggedIn: false,
       gameStage: {
-        biddings: []
+        gameRules: [],
+        reward: {
+          rewardName: ''
+        }
       }
     };
+    this.renderGameRule = this.renderGameRule.bind(this);
   }
+
+  handleChangeReward = input => event => {
+    const {gameStage} = this.state;
+    gameStage.reward.rewardName = event.target.value;
+    this.setState({gameStage});
+    const {index} = this.props;
+    this.props.handleChange(this.state.gameStage, index);
+  };
 
   handleChange = input => event => {
     const {gameStage} = this.state;
       gameStage[input] = event.target.value;
       this.setState({gameStage});
+    const {index} = this.props;
+    this.props.handleChange(this.state.gameStage, index);
   };
 
-  handleChangeBidding = (object,indexBid) => {
+  handleChangeBidding = (object,indexGameRule) => {
     const {gameStage} = this.state;
-    console.log("object")
-    console.log(object)
-    gameStage.biddings[indexBid] = object;
+    gameStage.gameRules[indexGameRule] = object;
     this.setState(gameStage)
     const {index} = this.props;
-    this.props.handleChange(gameStage, index);
+    this.props.handleChange(this.state.gameStage, index);
   };
 
-  appendBidding() {
-    const {gameStage} = this.state;
-    gameStage.biddings.push({ product: '',start_date: '',end_date: '' });
-    this.setState({gameStage});
+  appendGameRule() {
+    const { gameStage } = this.state;
+    switch (this.props.gameType) {
+      case "bidding" :
+        console.log("dkhel l bidding");
+        gameStage.gameRules.push({ product: { reference: '' }, start_date: '', end_date: '' });
+        break;
+      case "buying" :
+        console.log("dkhel l buying");
+        gameStage.gameRules.push({ products: [], quantity: '' });
+        break;
+    }
+    this.setState({ gameStage });
   }
+
+  renderGameRule(values,index) {
+    switch(this.props.gameType) {
+      case "bidding" :
+        return <BiddingGameRuleForm
+          handleChange={this.handleChangeBidding}
+          indexGameRule={index}
+          // handleChange={this.handleGameStageChange(index)}
+          values={values}
+        />
+      case "buying":
+        return <BuyingGameRuleForm
+          handleChange={this.handleChangeBidding}
+          indexGameRule={index}
+          // handleChange={this.handleGameStageChange(index)}
+          values={values}
+        />
+       }
+    }
 
   render() {
     const values = this.props;
@@ -56,15 +97,15 @@ class GameStageForm extends React.Component {
     return (
       <React.Fragment>
         <Row>
-          <Col xl={12} lg={12} md={12} sm={12}>
+          <Col>
             <Card>
               <CardHeader>
                 <Button
                   type="button"
-                  onClick={() => this.appendBidding()}
+                  onClick={() => this.appendGameRule()}
                   className="small"
                 >
-                  Add Bidding
+                  Add {this.props.gameType}
                 </Button>
               </CardHeader>
               <CardBody>
@@ -79,25 +120,20 @@ class GameStageForm extends React.Component {
 
                 <Input
                   type="text"
-                  name="rewardName"
+                  name="reward.rewardName"
                   value={values.rewardName}
                   placeholder="The reward name"
-                  onChange={this.handleChange('rewardName').bind(this)}
+                  onChange={this.handleChangeReward('rewardName').bind(this)}
                 />
 
               
-                  <Card className="flex-row" style={{ width: 800 }}>
-                    {this.state.gameStage.biddings.map((bidding, indexBid) => (
-                      <div key={indexBid}>
+                  <Card className="flex-row" >
+                    {this.state.gameStage.gameRules.map((gameRule, indexGameRule) => (
+                      <div key={indexGameRule}>
                         <Card>
                           <CardHeader>Bidding Creation Section</CardHeader>
                           <CardBody>
-                            <BiddingGameRuleForm
-                              handleChange={this.handleChangeBidding}
-                              indexBid={indexBid}
-                              // handleChange={this.handleGameStageChange(index)}
-                              values={bidding}
-                            />
+                            {this.renderGameRule(gameRule,indexGameRule)}
                           </CardBody>
                         </Card>
                       </div>

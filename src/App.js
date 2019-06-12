@@ -9,6 +9,7 @@ import ButtonGroupPage from 'pages/ButtonGroupPage';
 import ButtonPage from 'pages/ButtonPage';
 import CardPage from 'pages/CardPage';
 import ChartPage from 'pages/ChartPage';
+import TemplatesPage from 'pages/TemplatesPage'
 // pages
 import DashboardPage from 'pages/DashboardPage';
 import DropdownPage from 'pages/DropdownPage';
@@ -26,7 +27,6 @@ import './styles/reduction.scss';
 
 import GamesPage from 'pages/GamesPage'
 import GameTemapleEngine from './components/gameEngine/GameTemapleEngine'
-import MyForm from './components/gameEngine/dummyForm';
 import GameForm from './components/gameEngine/GameForm';
 
 const getBasename = () => {
@@ -74,6 +74,15 @@ class App extends React.Component {
               )}
               //component={DashboardPage}
             />
+
+            <LayoutRoute
+              exact
+              path="/templates"
+              layout={MainLayout}
+              component={props => (
+                <TemplatesPage {...props} hasLoggedIn={this.hasLoggedIn}/>
+              )}
+            />
             <LayoutRoute
               exact
               path="/games"
@@ -93,10 +102,10 @@ class App extends React.Component {
             />
             <LayoutRoute
               exact
-              path="/gameEngine"
+              path="/gameEngine/:gameType"
               layout={MainLayout}
               component={props => (
-                <GameForm/>
+                <GameForm {... props}  hasLoggedIn={this.hasLoggedIn}/>
               )}
             />
             <LayoutRoute
