@@ -1,103 +1,115 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Form,
-  FormFeedback,
-  FormGroup,
-  FormText,
-  Input,
-  Label,
-  Row,
-} from 'reactstrap';
+import { Card, CardBody, CardHeader, Col, FormGroup, Input, Label } from 'reactstrap';
+
+const biddingGameRuleCardStyle = {
+  marginBottom: '20px',
+};
 
 class BiddingGameRuleForm extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       hasLoggedIn: false,
+      gameRulesCounter: 0,
       bidding: {
         //typeRule: 'bidding',
         product: {
-          reference : ''
-        }
-      }
-  };
+          reference: '',
+        },
+      },
+    };
+    //this.handleGameRuleDelete = this.handleGameRuleDelete.bind(this);
   }
 
   handleChange = input => event => {
-    const {bidding} = this.state;
+    const { bidding } = this.state;
     bidding[input] = event.target.value;
-    this.setState(bidding)
-    const {indexGameRule} = this.props;
+    this.setState(bidding);
+    const { indexGameRule } = this.props;
     this.props.handleChange(bidding, indexGameRule);
   };
 
   handleChangeProduct = input => event => {
-    const {bidding} = this.state;
+    const { bidding } = this.state;
     bidding.product.reference = event.target.value;
-    this.setState(bidding)
-    const {indexGameRule} = this.props;
+    this.setState(bidding);
+    const { indexGameRule } = this.props;
     this.props.handleChange(bidding, indexGameRule);
   };
 
-    render() {
-      const values = this.props;
-        return(
-            <React.Fragment>
-              <Row>
-          <Col >
-            <Card>
-            <CardBody>
-            <a>Create Bidding</a>
-                  <Label for="product">
-                   
-                  </Label>
-                  
-                  
-                  <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)} type="select" name="selectMulti" multiple>
-                    <option>product 1</option>
-                    <option>product 2</option>
-                    <option>product 3</option>
-                    <option>product 4</option>
-                    <option>product 5</option>
-                  </Input>
-                 
-      
-                  <Label for="start_date">
-                   
-                  </Label>
-            
-                    <Input
-                      type="Date"
-                      name="start_date"
-                      value={values.start_date}
-                      placeholder="The start date of the bidding"
-                      onChange={this.handleChange('start_date').bind(this)}
-                  
-                    />
+  componentDidMount() {
+    let { gameRulesCounter } = this.props;
+    this.setState({ gameRulesCounter: gameRulesCounter });
+  }
 
-                    <Label for="end_date"/>
-                    <Input
-                      type="Date"
-                      name="end_date"
-                      value={values.end_date}
-                      placeholder="The end date of the bidding"
-                      onChange={this.handleChange('end_date').bind(this)}
+  render() {
+    const values = this.props;
+    return (
+      <React.Fragment>
+        <Card style={biddingGameRuleCardStyle}>
+          <CardHeader>
+            <button
+            className="float-right"
+            type="button"
+            onClick={() =>{if(window.confirm("Are you sure you want to delete this game rule?")) this.props.handleGameRuleDelete(this.props.indexGameRule)}}
+            >
+              &times;
+            </button>
+                <span>Bidding game Rule N°: <span
+                  className="font-weight-bold"> {this.props.indexGameRule + 1}</span></span>
+          </CardHeader>
+          <CardBody>
+            <FormGroup row>
+              <Label for="Targeted product" sm={2}>
+                Targeted product
+              </Label>
+              <Col sm={10}>
+                <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)}
+                       type="select" name="selectMulti">
+                  <option>product 1</option>
+                  <option>product 2</option>
+                  <option>product 3</option>
+                  <option>product 4</option>
+                  <option>product 5</option>
+                </Input>
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="start_date" sm={2}>
+                Start date
+              </Label>
+              <Col sm={10}>
+                <Input
+                  type="Date"
+                  name="start_date"
+                  value={values.start_date}
+                  placeholder="The start date of the bidding"
+                  onChange={this.handleChange('start_date').bind(this)}
+                />
+              </Col>
+            </FormGroup>
+            <FormGroup row>
+              <Label for="end_date" sm={2}>
+                The end date
+              </Label>
+              <Col sm={10}>
+                <Input
+                  type="Date"
+                  name="end_date"
+                  value={values.end_date}
+                  placeholder="The end date of the bidding"
+                  onChange={this.handleChange('end_date').bind(this)}
 
-                    />
-                  
-                  </CardBody>
-                  </Card>
-                  </Col>
-                  </Row>
-               
-          </React.Fragment>
-        );
-    }
+                />
+              </Col>
+            </FormGroup>
+          </CardBody>
+        </Card>
+
+
+      </React.Fragment>
+    );
+  }
 }
+
 export default BiddingGameRuleForm;

@@ -1,23 +1,9 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Form,
-  FormFeedback,
-  FormGroup,
-  FormText,
-  Input,
-  Label,
-  Row,
-} from 'reactstrap';
+import { Col, FormGroup, Input, Label } from 'reactstrap';
 
 class GameRuleForm extends React.Component {
-  constructor(){
-    super()
+  constructor(props){
+    super(props);
     this.state = {
       hasLoggedIn: false
   }

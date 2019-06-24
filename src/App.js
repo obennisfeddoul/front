@@ -28,6 +28,7 @@ import './styles/reduction.scss';
 import GamesPage from 'pages/GamesPage'
 import GameTemapleEngine from './components/gameEngine/GameTemapleEngine'
 import GameForm from './components/gameEngine/GameForm';
+import RouteParam from './components/gameEngine/RouteParam';
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`;
@@ -97,6 +98,14 @@ class App extends React.Component {
               layout={MainLayout}
               component={props => (
                 <GameTemapleEngine {...props} hasLoggedIn={this.hasLoggedIn}/>
+              )}
+            />
+            <LayoutRoute
+              exact
+              path="/try/:param"
+              layout={MainLayout}
+              component={props => (
+                <RouteParam {...props} hasLoggedIn={this.hasLoggedIn}/>
               )}
             />
             />

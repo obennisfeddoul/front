@@ -34,11 +34,13 @@ class AuthForm extends React.Component {
   handleSubmit = event => {
     event.preventDefault();
     if(this.isSignup){
-      fetch('10.242.3.116/users/sign-up', {
+      fetch('http://localhost:8080/sign-up', {
       method: 'POST',
+        mode: 'no-cors',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
         "username":this.state.username,
@@ -46,11 +48,13 @@ class AuthForm extends React.Component {
       }),
       });
     }else{
-      fetch('http://10.242.3.116:8080/login', {
+      fetch('http://localhost:8080/login', {
       method: 'POST',
+        mode: 'no-cors',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
       },
       body: JSON.stringify({
         "username":this.state.username,
@@ -60,7 +64,7 @@ class AuthForm extends React.Component {
         response => {
           if(response.ok) {
                 const userToken = response.headers.get('Authorization');
-              console.log(userToken)
+              console.log(userToken);
               this.setState({ hasLoggedIn: true });
               return true;
           }
@@ -116,11 +120,11 @@ class AuthForm extends React.Component {
         )}
         <FormGroup>
           <Label for={usernameLabel}>{usernameLabel}</Label>
-          <Input {...usernameInputProps} onChange={e => this.setState({ username: e.target.value })}/>
+          <Input {...usernameInputProps} onChange={e => this.setState({ username: e.target.value })} name={"username"}/>
         </FormGroup>
         <FormGroup>
           <Label for={passwordLabel}>{passwordLabel}</Label>
-          <Input {...passwordInputProps} onChange={e => this.setState({ password: e.target.value })}/>
+          <Input {...passwordInputProps} onChange={e => this.setState({ password: e.target.value })} name={"password"}/>
         </FormGroup>
         {this.isSignup && (
           <FormGroup>
