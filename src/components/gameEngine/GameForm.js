@@ -1,20 +1,8 @@
 import Page from 'components/Page';
 import React from 'react';
 
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Form,
-  FormGroup,
-  Input,
-  Label,
-  Row,
-} from 'reactstrap';
+import { Button, Card, CardBody, CardHeader, Col, Form, FormGroup, Input, Label, Row } from 'reactstrap';
 import GameStageForm from './GameStageForm';
-import axios from 'axios';
 import HttpService from '../../services/http';
 
 class GameForm extends React.Component {

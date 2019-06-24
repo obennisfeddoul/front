@@ -1,21 +1,5 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Form,
-  FormFeedback,
-  FormGroup,
-  FormText,
-  Input,
-  Label,
-  Row,
-} from 'reactstrap';
-
-import GameRuleForm from './GameRuleForm';
+import { Button, Card, CardBody, CardHeader, Col, Input, Row } from 'reactstrap';
 import BiddingGameRuleForm from './BiddingGameRuleForm';
 import BuyingGameRuleForm from './BuyingGameRuleForm';
 
@@ -144,15 +128,6 @@ class GameStageForm extends React.Component {
             </Card>
           </Col>
         </Row>
-        {/* <Card>
-                 <CardHeader>Game Rule Creation Section</CardHeader>
-                 <CardBody>
-                    <BiddingGameRuleForm 
-                    handleChange = {this.props.handleChange}
-                    values={values}
-                    />          
-                </CardBody>
-                </Card> */}
       </React.Fragment>
     );
   }

@@ -1,32 +1,38 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import {
-  Button,
-  Card,
-  CardBody,
-  CardHeader,
-  Col,
-  Form,
-  FormFeedback,
-  FormGroup,
-  FormText,
-  Input,
-  Label,
-  Row,
-} from 'reactstrap';
+import HttpService from '../../services/http';
+
+import { Card, CardBody, Col, Input, Label, Row } from 'reactstrap';
+import axios from 'axios';
 
 class BiddingGameRuleForm extends React.Component {
   constructor(props){
     super(props)
+    const httpService = new HttpService();
     this.state = {
+      products : [],
       hasLoggedIn: false,
       bidding: {
-        //typeRule: 'bidding',
         product: {
           reference : ''
         }
       }
   };
+    this.fetchProducts = this.fetchProducts.bind(this);
+  }
+
+  fetchProducts(){
+    return axios.get('http://localhost:8080/api/products', {
+      mode: 'no-cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(data => this.setState({products : data.data}))
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   handleChange = input => event => {
@@ -46,6 +52,7 @@ class BiddingGameRuleForm extends React.Component {
   };
 
     render() {
+      this.fetchProducts();
       const values = this.props;
         return(
             <React.Fragment>
@@ -59,12 +66,10 @@ class BiddingGameRuleForm extends React.Component {
                   </Label>
                   
                   
-                  <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)} type="select" name="selectMulti" multiple>
-                    <option>product 1</option>
-                    <option>product 2</option>
-                    <option>product 3</option>
-                    <option>product 4</option>
-                    <option>product 5</option>
+                  <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)} type="select" name="selectMulti">
+                    {this.state.products.map((product, index) => (
+                     <option key={ index }>{product.reference}</option>
+                  ))}
                   </Input>
                  
       

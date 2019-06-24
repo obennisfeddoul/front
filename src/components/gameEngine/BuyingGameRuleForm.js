@@ -1,16 +1,33 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Col, Input, Label, Row } from 'reactstrap';
+import axios from 'axios';
 
 class BuyingGameRuleForm extends React.Component {
   constructor(props){
     super(props)
     this.state = {
       hasLoggedIn: false,
+      allProducts : [],
       buying: {
         quantity: '',
         products: []
       }
     };
+  }
+
+  fetchProducts(){
+    return axios.get('http://localhost:8080/api/products', {
+      mode: 'no-cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(data => this.setState({allProducts : data.data}))
+      .catch(error => {
+        console.log(error)
+      });
   }
 
   handleChange = input => event => {
@@ -30,6 +47,7 @@ class BuyingGameRuleForm extends React.Component {
   };
 
   render() {
+    this.fetchProducts();
     const values = this.props;
     return(
       <React.Fragment>
@@ -38,20 +56,6 @@ class BuyingGameRuleForm extends React.Component {
             <Card>
               <CardBody>
 
-
-                {/*<Card className="flex-row" >*/}
-                {/*  {this.state.buying.products.map((product, indexProduct) => (*/}
-                {/*    <div key={indexProduct}>*/}
-                {/*      <Card>*/}
-                {/*        <CardHeader>Bidding Creation Section</CardHeader>*/}
-                {/*        <CardBody>*/}
-                {/*          {this.renderGameRule(product,indexProduct)}*/}
-                {/*        </CardBody>*/}
-                {/*      </Card>*/}
-                {/*    </div>*/}
-                {/*  ))}*/}
-                {/*</Card>*/}
-
                 <a>Create Buying</a>
                 <Label for="product">
 
@@ -59,11 +63,9 @@ class BuyingGameRuleForm extends React.Component {
 
 
                 <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)} type="select" name="selectMulti" multiple>
-                  <option>product 1</option>
-                  <option>product 2</option>
-                  <option>product 3</option>
-                  <option>product 4</option>
-                  <option>product 5</option>
+                  {this.state.allProducts.map((product, index) => (
+                    <option key={ index }>{product.reference}</option>
+                  ))}
                 </Input>
 
 
