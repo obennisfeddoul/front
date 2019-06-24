@@ -11,6 +11,7 @@ class BiddingGameRuleForm extends React.Component {
     this.state = {
       hasLoggedIn: false,
       gameRulesCounter: 0,
+      prodcuts : [],
       bidding: {
         //typeRule: 'bidding',
         product: {

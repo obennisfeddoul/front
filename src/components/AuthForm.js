@@ -32,47 +32,48 @@ class AuthForm extends React.Component {
   };
 
   handleSubmit = event => {
-    event.preventDefault();
-    if(this.isSignup){
-      fetch('http://localhost:8080/sign-up', {
-      method: 'POST',
-        mode: 'no-cors',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({
-        "username":this.state.username,
-        "password":this.state.password
-      }),
-      });
-    }else{
-      fetch('http://localhost:8080/login', {
-      method: 'POST',
-        mode: 'no-cors',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({
-        "username":this.state.username,
-        "password":this.state.password
-      }),
-      }).then(
-        response => {
-          if(response.ok) {
-                const userToken = response.headers.get('Authorization');
-              console.log(userToken);
-              this.setState({ hasLoggedIn: true });
-              return true;
-          }
-          // Error handling
-        }
-      );
-    }
-    
+    this.setState({hasLoggedIn: true})
+    // event.preventDefault();
+    // if(this.isSignup){
+    //   fetch('http://localhost:8080/sign-up', {
+    //   method: 'POST',
+    //     mode: 'no-cors',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Origin': '*',
+    //   },
+    //   body: JSON.stringify({
+    //     "username":this.state.username,
+    //     "password":this.state.password
+    //   }),
+    //   });
+    // }else{
+    //   fetch('http://localhost:8080/login', {
+    //   method: 'POST',
+    //     mode: 'no-cors',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //     'Access-Control-Allow-Origin': '*',
+    //   },
+    //   body: JSON.stringify({
+    //     "username":this.state.username,
+    //     "password":this.state.password
+    //   }),
+    //   }).then(
+    //     response => {
+    //       if(response.ok) {
+    //             const userToken = response.headers.get('Authorization');
+    //           console.log(userToken);
+    //           this.setState({ hasLoggedIn: true });
+    //           return true;
+    //       }
+    //       // Error handling
+    //     }
+    //   );
+    // }
+    //
 };
       
   renderButtonText() {

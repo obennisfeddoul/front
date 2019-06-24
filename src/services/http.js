@@ -19,6 +19,22 @@ class HttpService {
         'Content-Type': 'application/json',
       },
     })
+      .then(data => console.log("haha"))
+      .catch(error => {
+        console.log(error)
+      });
+  }
+
+  getData = (url) =>
+  {
+    return axios.get(url, {
+      mode: 'no-cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
       .then(data => console.log(data))
       .catch(error => {
         console.log(error)

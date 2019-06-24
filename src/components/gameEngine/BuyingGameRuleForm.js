@@ -1,56 +1,60 @@
 import React from 'react';
-import { Card, CardBody, CardHeader, Col, Input, Label, Row } from 'reactstrap';
+import { Card, CardBody, Col, Input, Label, Row } from 'reactstrap';
+import axios from 'axios';
 
 class BuyingGameRuleForm extends React.Component {
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       hasLoggedIn: false,
+      allProducts: [],
       buying: {
         quantity: '',
-        products: []
-      }
+        products: [],
+      },
     };
   }
 
+  fetchProducts() {
+    return axios.get('http://localhost:8080/api/products', {
+      mode: 'no-cors',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(data => this.setState({ allProducts: data.data }))
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   handleChange = input => event => {
-    const {buying} = this.state;
+    const { buying } = this.state;
     buying[input] = event.target.value;
-    this.setState(buying)
-    const {indexGameRule} = this.props;
+    this.setState(buying);
+    const { indexGameRule } = this.props;
     this.props.handleChange(buying, indexGameRule);
   };
 
   handleChangeProduct = input => event => {
-    const {buying} = this.state;
+    const { buying } = this.state;
     buying.products.push(event.target.value);
-    this.setState(buying)
-    const {indexGameRule} = this.props;
+    this.setState(buying);
+    const { indexGameRule } = this.props;
     this.props.handleChange(buying, indexGameRule);
   };
 
   render() {
+    this.fetchProducts();
     const values = this.props;
-    return(
+    return (
       <React.Fragment>
         <Row>
-          <Col >
+          <Col>
             <Card>
               <CardBody>
-
-
-                {/*<Card className="flex-row" >*/}
-                {/*  {this.state.buying.products.map((product, indexProduct) => (*/}
-                {/*    <div key={indexProduct}>*/}
-                {/*      <Card>*/}
-                {/*        <CardHeader>Bidding Creation Section</CardHeader>*/}
-                {/*        <CardBody>*/}
-                {/*          {this.renderGameRule(product,indexProduct)}*/}
-                {/*        </CardBody>*/}
-                {/*      </Card>*/}
-                {/*    </div>*/}
-                {/*  ))}*/}
-                {/*</Card>*/}
 
                 <a>Create Buying</a>
                 <Label for="product">
@@ -58,28 +62,21 @@ class BuyingGameRuleForm extends React.Component {
                 </Label>
 
 
-                <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)} type="select" name="selectMulti" multiple>
-                  <option>product 1</option>
-                  <option>product 2</option>
-                  <option>product 3</option>
-                  <option>product 4</option>
-                  <option>product 5</option>
+                <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)}
+                       type="select" name="selectMulti" multiple>
+                  {this.state.allProducts.map((product, index) => (
+                    <option key={index}>{product.reference}</option>
+                  ))}
                 </Input>
-
-
                 <Label for="quantity">
-
                 </Label>
-
                 <Input
                   type="Text"
                   name="quantity"
                   value={values.quantity}
                   placeholder="The quantity of these products"
                   onChange={this.handleChange('quantity').bind(this)}
-
                 />
-
               </CardBody>
             </Card>
           </Col>
@@ -89,4 +86,5 @@ class BuyingGameRuleForm extends React.Component {
     );
   }
 }
+
 export default BuyingGameRuleForm;
