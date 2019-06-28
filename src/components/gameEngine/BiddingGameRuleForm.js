@@ -1,5 +1,6 @@
 import React from 'react';
 import { Card, CardBody, CardHeader, Col, FormGroup, Input, Label } from 'reactstrap';
+import HttpService from '../../services/http';
 
 const biddingGameRuleCardStyle = {
   marginBottom: '20px',
@@ -11,7 +12,7 @@ class BiddingGameRuleForm extends React.Component {
     this.state = {
       hasLoggedIn: false,
       gameRulesCounter: 0,
-      prodcuts : [],
+      products: [],
       bidding: {
         //typeRule: 'bidding',
         product: {
@@ -20,6 +21,13 @@ class BiddingGameRuleForm extends React.Component {
       },
     };
     //this.handleGameRuleDelete = this.handleGameRuleDelete.bind(this);
+  }
+
+  fetchProducts() {
+    let httpService = new HttpService();
+    let data = httpService.fetchProducts().then((data) => {
+      this.setState({ products: data.data });
+    });
   }
 
   handleChange = input => event => {
@@ -41,6 +49,7 @@ class BiddingGameRuleForm extends React.Component {
   componentDidMount() {
     let { gameRulesCounter } = this.props;
     this.setState({ gameRulesCounter: gameRulesCounter });
+    this.fetchProducts();
   }
 
   render() {
@@ -50,14 +59,16 @@ class BiddingGameRuleForm extends React.Component {
         <Card style={biddingGameRuleCardStyle}>
           <CardHeader>
             <button
-            className="float-right"
-            type="button"
-            onClick={() =>{if(window.confirm("Are you sure you want to delete this game rule?")) this.props.handleGameRuleDelete(this.props.indexGameRule)}}
+              className="float-right"
+              type="button"
+              onClick={() => {
+                if (window.confirm('Are you sure you want to delete this game rule?')) this.props.handleGameRuleDelete(this.props.indexGameRule);
+              }}
             >
               &times;
             </button>
-                <span>Bidding game Rule N°: <span
-                  className="font-weight-bold"> {this.props.indexGameRule + 1}</span></span>
+            <span>Bidding game Rule N°: <span
+              className="font-weight-bold"> {this.props.indexGameRule + 1}</span></span>
           </CardHeader>
           <CardBody>
             <FormGroup row>
@@ -67,11 +78,9 @@ class BiddingGameRuleForm extends React.Component {
               <Col sm={10}>
                 <Input value={values.reference} onChange={this.handleChangeProduct('reference').bind(this)}
                        type="select" name="selectMulti">
-                  <option>product 1</option>
-                  <option>product 2</option>
-                  <option>product 3</option>
-                  <option>product 4</option>
-                  <option>product 5</option>
+                  {this.state.products.map((product, index) => (
+                    <option key={index}>{product.reference}</option>
+                  ))}
                 </Input>
               </Col>
             </FormGroup>
@@ -100,14 +109,11 @@ class BiddingGameRuleForm extends React.Component {
                   value={values.end_date}
                   placeholder="The end date of the bidding"
                   onChange={this.handleChange('end_date').bind(this)}
-
                 />
               </Col>
             </FormGroup>
           </CardBody>
         </Card>
-
-
       </React.Fragment>
     );
   }

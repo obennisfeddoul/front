@@ -34,10 +34,11 @@ const getBasename = () => {
 };
 
 class App extends React.Component {
-  constructor(){
-    super()
-    this.state = {hasLoggedIn: false}
+  constructor() {
+    super();
+    this.state = { hasLoggedIn: false };
   }
+
   render() {
     return (
       <BrowserRouter basename={getBasename()}>
@@ -105,7 +106,7 @@ class App extends React.Component {
               path="/gameEngine/:gameType"
               layout={MainLayout}
               component={props => (
-                <GameForm {... props}  hasLoggedIn={this.hasLoggedIn}/>
+                <GameForm {...props} />
               )}
             />
             <LayoutRoute
@@ -198,7 +199,7 @@ class App extends React.Component {
               layout={MainLayout}
               component={AuthPage}
             />
-            <Redirect to="/" />
+            <Redirect to="/"/>
           </Switch>
         </GAListener>
       </BrowserRouter>

@@ -13,7 +13,16 @@ class GameStageForm extends React.Component {
     this.state = {
       hasLoggedIn: false,
       gameStage: {
-        gameRules: [],
+        gameRules: [
+          {
+            product:
+              {
+                reference: '',
+              },
+            start_date: '',
+            end_date: '',
+          },
+        ],
         reward: {
           rewardName: '',
         },
@@ -62,9 +71,9 @@ class GameStageForm extends React.Component {
   }
 
   handleGameRuleDelete(index) {
-    let {gameStage} = this.state;
+    let { gameStage } = this.state;
     gameStage.gameRules.splice(index, 1);
-    this.setState({gameStage});
+    this.setState({ gameStage });
     return console.log('Game Rule deleted');
   }
 
@@ -83,6 +92,7 @@ class GameStageForm extends React.Component {
         return <BuyingGameRuleForm
           handleChange={this.handleChangeBidding}
           indexGameRule={index}
+          handleGameRuleDelete={this.handleGameRuleDelete}
           // handleChange={this.handleGameStageChange(index)}
           values={values}
         />;

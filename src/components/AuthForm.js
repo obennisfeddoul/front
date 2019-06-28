@@ -18,6 +18,7 @@ class AuthForm extends React.Component {
       password: '',
     };
   }
+
   get isLogin() {
     return this.props.authState === STATE_LOGIN;
   }
@@ -32,8 +33,8 @@ class AuthForm extends React.Component {
   };
 
   handleSubmit = event => {
-    this.setState({hasLoggedIn: true})
-    // event.preventDefault();
+    event.preventDefault();
+    this.setState({ hasLoggedIn: true });
     // if(this.isSignup){
     //   fetch('http://localhost:8080/sign-up', {
     //   method: 'POST',
@@ -49,33 +50,33 @@ class AuthForm extends React.Component {
     //   }),
     //   });
     // }else{
-    //   fetch('http://localhost:8080/login', {
-    //   method: 'POST',
-    //     mode: 'no-cors',
-    //   headers: {
-    //     Accept: 'application/json',
-    //     'Content-Type': 'application/json',
-    //     'Access-Control-Allow-Origin': '*',
-    //   },
-    //   body: JSON.stringify({
-    //     "username":this.state.username,
-    //     "password":this.state.password
-    //   }),
-    //   }).then(
-    //     response => {
-    //       if(response.ok) {
-    //             const userToken = response.headers.get('Authorization');
-    //           console.log(userToken);
-    //           this.setState({ hasLoggedIn: true });
-    //           return true;
-    //       }
-    //       // Error handling
-    //     }
-    //   );
+    fetch('http://localhost:8080/login', {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        'username': this.state.username,
+        'password': this.state.password,
+      }),
+    }).then(
+      response => {
+        if (response.ok) {
+          const userToken = response.headers.get('Authorization');
+          console.log(userToken);
+          this.setState({ hasLoggedIn: true });
+          return true;
+        }
+        // Error handling
+      },
+    );
     // }
     //
-};
-      
+  };
+
   renderButtonText() {
     const { buttonText } = this.props;
 
@@ -104,7 +105,7 @@ class AuthForm extends React.Component {
     } = this.props;
 
     if (this.state.hasLoggedIn)
-       return <Redirect to="/dashboard"/>
+      return <Redirect to="/dashboard"/>;
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -121,11 +122,11 @@ class AuthForm extends React.Component {
         )}
         <FormGroup>
           <Label for={usernameLabel}>{usernameLabel}</Label>
-          <Input {...usernameInputProps} onChange={e => this.setState({ username: e.target.value })} name={"username"}/>
+          <Input {...usernameInputProps} onChange={e => this.setState({ username: e.target.value })} name={'username'}/>
         </FormGroup>
         <FormGroup>
           <Label for={passwordLabel}>{passwordLabel}</Label>
-          <Input {...passwordInputProps} onChange={e => this.setState({ password: e.target.value })} name={"password"}/>
+          <Input {...passwordInputProps} onChange={e => this.setState({ password: e.target.value })} name={'password'}/>
         </FormGroup>
         {this.isSignup && (
           <FormGroup>
@@ -135,11 +136,11 @@ class AuthForm extends React.Component {
         )}
         <FormGroup check>
           <Label check>
-            <Input type="checkbox" />{' '}
+            <Input type="checkbox"/>{' '}
             {this.isSignup ? 'Agree the terms and policy' : 'Remember me'}
           </Label>
         </FormGroup>
-        <hr />
+        <hr/>
         <Button
           size="lg"
           className="bg-gradient-theme-left border-0"
@@ -202,7 +203,8 @@ AuthForm.defaultProps = {
     type: 'password',
     placeholder: 'confirm your password',
   },
-  onLogoClick: () => {},
+  onLogoClick: () => {
+  },
 };
 
 export default AuthForm;

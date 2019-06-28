@@ -22,11 +22,14 @@ class GameForm extends React.Component {
       game: {
         gameType: props.match.params.gameType,
         gameName: '',
-        gameStages: [],
+        gameStages: [
+          {
+            gameStageName: '',
+          },
+        ],
       },
     };
   }
-
 
   handleChange = input => event => {
     const { game } = this.state;
@@ -55,10 +58,9 @@ class GameForm extends React.Component {
   }
 
   handleGameStageDelete(index) {
-    let {game} = this.state;
+    let { game } = this.state;
     game.gameStages.splice(index, 1);
-     this.setState({game});
-    return console.log("Game stage deleted"+this.state.game.gameStages.length);
+    this.setState({ game });
   }
 
   render() {
@@ -66,7 +68,7 @@ class GameForm extends React.Component {
     const values = game;
 
     return (
-      <Page title="Game Engine" breadcrumbs={[{ name: 'Bidding game', active: true }]}>
+      <Page title="Game Engine" breadcrumbs={[{ name: this.state.game.gameType, active: true }]}>
         <Row>
           <Col xl={12} lg={12} md={12} sm={12}>
             <Card style={gameCardStyle}>
@@ -105,10 +107,13 @@ class GameForm extends React.Component {
                               <button
                                 className="float-right"
                                 type="button"
-                                onClick={() => {if(window.confirm("Are you sure you want to delete this game stage?"))this.handleGameStageDelete(index)}}>
+                                onClick={() => {
+                                  if (window.confirm('Are you sure you want to delete this game stage?')) this.handleGameStageDelete(index);
+                                }}>
                                 &times;
                               </button>
-                              Game Stage Creation Section <span className="font-weight-bold">{index + 1}/ {this.state.game.gameStages.length}</span>
+                              Game Stage Creation Section <span
+                              className="font-weight-bold">{index + 1}/ {this.state.game.gameStages.length}</span>
                             </CardHeader>
                             <CardBody>
                               <GameStageForm
